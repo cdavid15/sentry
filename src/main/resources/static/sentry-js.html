@@ -1,0 +1,71 @@
+<html>
+
+<head>
+  <script src="https://cdn.ravenjs.com/3.25.2/raven.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+</body>
+
+
+<script>
+Raven.config('https://a76e7f2ffc7241ebb9c8aceb8494898f@sentry.io/1212381',{
+  release: 'v1.0.2',
+  environment: 'development',
+  serverName: '127.0.0.1',
+  tags: {git_commit: 'c0deb10c4'}
+}).install();
+
+Raven.setUserContext({
+    email: 'bob@test.com',
+    id: '1255'
+})
+
+
+Raven.context(function () {
+
+  Raven.captureBreadcrumb({
+    message: 'Item added to shopping cart',
+    category: 'action',
+    data: {
+       isbn: '978-1617290541',
+       cartSize: '3'
+    }
+  });
+  
+  Raven.captureBreadcrumb({
+  message: 'Navigated to Create Page',
+  category: 'navigation',
+});
+
+Raven.captureBreadcrumb({
+message: ' Navigate to Update Page',
+  category: 'navigation',
+});
+
+Raven.captureBreadcrumb({
+  message: 'Delete Record',
+  category: 'action',
+  data: {
+     recordId: '1'
+  }
+});
+
+
+  try {
+      doSomething();
+  } catch(e) {
+      Raven.captureException(e);
+  }
+  
+  
+  Raven.captureMessage('Major fault');
+ 
+
+
+});
+
+</script>
+
+</html>
